@@ -93,8 +93,9 @@ export class AppComponent {
     this.authService.getTasks(this.username, this.password).subscribe({
 
       next: (data) => {
-        this.tasks = data;
-        console.log("Tasks loaded", data);
+        // ensure uncompleted tasks appear first
+        this.tasks = data.sort((a, b) => Number(a.completed) - Number(b.completed));
+        console.log("Tasks loaded", this.tasks);
       },
 
       error: (err) => {
@@ -111,6 +112,15 @@ export class AppComponent {
     this.password = '';
     this.isLogin = true;
     this.showModal = true;
+  }
+
+  /**
+   * mark a task complete locally and keep the list sorted
+   */
+  completeTask(task: ToDo) {
+    task.completed = true;
+    // move the just-completed item to the end of the array
+    this.tasks.sort((a, b) => Number(a.completed) - Number(b.completed));
   }
 
 }

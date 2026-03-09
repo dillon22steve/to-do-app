@@ -75,3 +75,82 @@
   cursor: pointer;
   font-size: 0.9rem;
 }
+
+.top-bar {
+  width: 100%;
+  /* Optional: fix it to the top so it stays there when scrolling */
+  position: relative; 
+  top: 0;
+  left: 0;
+  border: 5px;
+}
+
+.header {
+  display: flex;
+  align-items: center;     /* Vertically centers the button and H1 relative to each other */
+  justify-content: center; /* Horizontally centers the H1 */
+  position: relative;
+  padding: 10px 0;         /* Small padding to keep it tight to the top */
+  min-height: 60px;        /* Set a specific height so it doesn't feel 'deep' */
+  width: 100%;
+}
+
+h1 {
+  margin: 0;               /* REMOVES the default space above the text */
+  font-size: 1.5rem;       /* Adjust size as needed */
+  line-height: 1;          /* Keeps the text 'box' tight */
+}
+
+.logout-btn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  position: absolute;      /* Pulls it out of the flex flow */
+  right: 20px;             /* Pins it to the far right */
+  border: none;
+  background: #333;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* tasks layout and card styling */
+.tasks-container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem; /* leaves a bit of space below the header */
+  align-items: center;              /* center cards horizontally */
+}
+
+.task-card {
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  width: 100%;                      /* default to full width of container */
+  max-width: 600px;                 /* limit maximum width */
+  text-align: center;              /* center text inside card */
+}
+
+/* status colours */
+.task-card.incomplete {
+  background-color: #fff9c4; /* light yellow */
+}
+.task-card.complete {
+  background-color: #e8f5e9; /* light green */
+}
+
+.complete-btn {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.complete-btn:hover {
+  background-color: #45a049;
+}

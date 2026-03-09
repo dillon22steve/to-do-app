@@ -11,6 +11,8 @@ export interface ToDo {
   id: number;
   title: string;
   completed: boolean;
+  /** optional longer text for the task */
+  description?: string;
 }
 
 @Injectable({
