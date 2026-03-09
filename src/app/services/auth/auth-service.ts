@@ -28,9 +28,10 @@ export class AuthService {
     return response;
   }
 
-  signup(username: string, password: string) {
-    const headers = this.createAuthHeader(username, password);
-    return this.http.post(`${this.baseUrl}/users/signup`, {}, { headers });
+  signup(user : UserDetails): Observable<any> {
+    console.log("AuthService: signing up with user details", user);
+    const response = this.http.post(`${this.baseUrl}/users/signup`, user);
+    return response;
   }
 
   getTasks(username: string, password: string): Observable<ToDo[]> {

@@ -1,1 +1,77 @@
 /* You can add global styles to this file, and also import other style files */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  
+  /* This centers the modal-container both ways */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  background: rgba(0, 0, 0, 0.5); /* Slightly darker for better focus */
+  z-index: 1000;
+}
+
+.modal-container {
+  position: relative; /* Crucial so the close-btn "absolute" stays inside here */
+  background-color: #f5f5dc;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  
+  width: 90%;
+  max-width: 400px;
+}
+
+/* Vertical layout for the contents */
+.modal {
+  display: flex;
+  flex-direction: column; /* Stacks items vertically */
+  align-items: stretch;    /* Makes inputs fill the width */
+  gap: 1.2rem;            /* Spacing between vertical elements */
+}
+
+.modal h2 {
+  margin: 0 0 0.5rem 0;
+  text-align: center;
+}
+
+.modal input {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%; /* Ensures they don't shrink */
+  box-sizing: border-box; /* Includes padding in the width calculation */
+}
+
+.modal button[type="submit"] {
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  background: #333;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.toggle-text {
+  margin-top: 1rem;
+  text-align: center;
+  color: #007BFF;
+  cursor: pointer;
+  font-size: 0.9rem;
+}

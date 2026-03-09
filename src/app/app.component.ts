@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService, ToDo } from './services/auth/auth-service';
+import { is } from 'cypress/types/bluebird';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,9 @@ export class AppComponent {
 
   title = 'angular-quickstart';
 
-  showModal = false
-  isLogin = true
+  showModal = true;
+  isLogin = true;
+  isAuthenticated = false;
 
   username: string = ''
   password: string = ''
@@ -36,6 +38,10 @@ export class AppComponent {
     this.showModal = false
   }
 
+  toggleAuthMode() {
+    this.isLogin = !this.isLogin
+  }
+
   submitForm() {
     console.log(this.username, this.password)
 
@@ -56,6 +62,7 @@ export class AppComponent {
           this.loadTasks();
           console.log(this.tasks);
           this.closeModal();
+          this.isAuthenticated = true;
         },
         error: (error) => {
           console.error("Login failed", error);
@@ -64,11 +71,13 @@ export class AppComponent {
       });
     } else {
       console.log("Signing up...")
-      this.authService.signup(this.username, this.password).subscribe({
+      this.authService.signup(userDetails).subscribe({
         next: (response) => {
           console.log("Signup successful", response);
           this.loadTasks();
           this.closeModal();
+          this.isAuthenticated = true;
+          this.showModal = false;
         },
         error: (error) => {
           console.error("Signup failed", error);
@@ -93,6 +102,15 @@ export class AppComponent {
       }
 
     });
+  }
+
+  logout() {
+    this.isAuthenticated = false;
+    this.tasks = [];
+    this.username = '';
+    this.password = '';
+    this.isLogin = true;
+    this.showModal = true;
   }
 
 }

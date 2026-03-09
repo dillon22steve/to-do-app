@@ -4,44 +4,42 @@
   <div id="content">
     <div class="header">
       <h1>To Do App</h1>
-      <button class="login-btn" (click)="openLogin()">Login</button>
-      <button class="signup-btn" (click)="openSignup()">Sign Up</button>
+      <button class="auth-btn" *ngIf="isAuthenticated" (click)="logout()">Logout</button>
     </div>
   </div>
 </nav>
 
 <div class="modal-overlay" *ngIf="showModal">
+  <div class="modal-container">
+    <div class="modal">
 
-  <div class="modal">
-
-    <h2>{{ isLogin ? 'Login' : 'Sign Up' }}</h2>
-
-    <form (submit)="submitForm()">
+      <h2>{{ isLogin ? 'Login' : 'Sign Up' }}</h2>
 
       <input
-        type="text"
-        placeholder="Username"
-        [(ngModel)]="username"
-        name="username"
-        required
-      />
+          type="text"
+          placeholder="Username"
+          [(ngModel)]="username"
+          name="username"
+          required
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        [(ngModel)]="password"
-        name="password"
-        required
-      />
+        <input
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="password"
+          name="password"
+          required
+        />
 
-      <button type="submit">
-        {{ isLogin ? 'Login' : 'Create Account' }}
-      </button>
+        <button type="submit" (click)="submitForm()">
+          {{ isLogin ? 'Login' : 'Create Account' }}
+        </button>
 
-    </form>
+        <p class="toggle-text" (click)="toggleAuthMode()">
+          {{ isLogin ? "Don't have an account already? Sign up" : "Have an account already? Log in" }}
+        </p>
 
-    <button class="close-btn" (click)="closeModal()">✕</button>
-
+        <button class="close-btn" (click)="closeModal()">✕</button>
+    </div>
   </div>
-
 </div>
