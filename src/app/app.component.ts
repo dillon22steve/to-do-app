@@ -118,9 +118,35 @@ export class AppComponent {
    * mark a task complete locally and keep the list sorted
    */
   completeTask(task: ToDo) {
-    task.completed = true;
-    // move the just-completed item to the end of the array
-    this.tasks.sort((a, b) => Number(a.completed) - Number(b.completed));
+    // optimistically mark the task locally only after server confirms
+    this.authService.markTaskComplete(task.id, this.username, this.password).subscribe({
+      next: () => {
+        task.completed = true;
+        // move the just-completed item to the end of the array
+        this.tasks.sort((a, b) => Number(a.completed) - Number(b.completed));
+      },
+      error: (err) => {
+        console.error('Failed to mark task complete', err);
+        alert('Could not complete task. Please try again.');
+      }
+    });
+  }
+
+  /**
+   * mark a task incomplete locally and keep the list sorted
+   */
+  uncompleteTask(task: ToDo) {
+    this.authService.markTaskIncomplete(task.id, this.username, this.password).subscribe({
+      next: () => {
+        task.completed = false;
+        // move the just-uncompleted item to the front of the array
+        this.tasks.sort((a, b) => Number(a.completed) - Number(b.completed));
+      },
+      error: (err) => {
+        console.error('Failed to mark task incomplete', err);
+        alert('Could not uncomplete task. Please try again.');
+      }
+    });
   }
 
 }

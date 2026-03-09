@@ -130,6 +130,7 @@ h1 {
   width: 100%;                      /* default to full width of container */
   max-width: 600px;                 /* limit maximum width */
   text-align: center;              /* center text inside card */
+  position: relative;              /* for absolute positioning of checkmark */
 }
 
 /* status colours */
@@ -153,4 +154,18 @@ h1 {
 
 .complete-btn:hover {
   background-color: #45a049;
+}
+
+.checkmark {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1.5rem;
+  color: #ccc; /* grey for incomplete tasks */
+  font-weight: bold;
+  cursor: pointer; /* indicate it's clickable */
+}
+
+.checkmark.completed {
+  color: #4caf50; /* green for completed tasks */
 }

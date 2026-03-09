@@ -16,6 +16,8 @@
     class="task-card"
     [ngClass]="{ 'incomplete': !task.completed, 'complete': task.completed }"
   >
+    <!-- checkmark for all tasks, styled based on completion -->
+    <span class="checkmark" [ngClass]="{'completed': task.completed}" (click)="task.completed ? uncompleteTask(task) : completeTask(task)">✓</span>
     <h3>{{ task.title }}</h3>
     <p>{{ task.description || '' }}</p>
     <!-- show button only for unfinished tasks -->

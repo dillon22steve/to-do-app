@@ -43,10 +43,19 @@ export class AuthService {
     return this.http.get<ToDo[]>(`${this.baseUrl}/tasks`, { headers });
   }
 
+  markTaskComplete(id: number, username: string, password: string) {
+    const headers = this.createAuthHeader(username, password);
+    return this.http.patch(`${this.baseUrl}/tasks/${id}/complete`, {}, { headers });
+  }
+
+  markTaskIncomplete(id: number, username: string, password: string) {
+    const headers = this.createAuthHeader(username, password);
+    return this.http.patch(`${this.baseUrl}/tasks/${id}/incomplete`, {}, { headers });
+  }
+
   private createAuthHeader(username: string, password: string) {
-    const auth = btoa(`${username}:${password}`);
     return new HttpHeaders({
-      Authorization: `Basic ${auth}`
+      Authorization: 'Basic ' + btoa(username + ':' + password)
     });
   }
 
