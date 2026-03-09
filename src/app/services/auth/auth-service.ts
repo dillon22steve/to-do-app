@@ -13,6 +13,8 @@ export interface ToDo {
   completed: boolean;
   /** optional longer text for the task */
   description?: string;
+  /** optional due date */
+  dueDate?: string;
 }
 
 @Injectable({
@@ -51,6 +53,11 @@ export class AuthService {
   markTaskIncomplete(id: number, username: string, password: string) {
     const headers = this.createAuthHeader(username, password);
     return this.http.patch(`${this.baseUrl}/tasks/${id}/incomplete`, {}, { headers });
+  }
+
+  createTask(task: Partial<ToDo>, username: string, password: string): Observable<ToDo> {
+    const headers = this.createAuthHeader(username, password);
+    return this.http.post<ToDo>(`${this.baseUrl}/tasks`, task, { headers });
   }
 
   private createAuthHeader(username: string, password: string) {

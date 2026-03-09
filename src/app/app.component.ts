@@ -21,6 +21,12 @@ export class AppComponent {
 
   tasks: ToDo[] = [];
 
+  // for add task modal
+  showAddModal = false;
+  newTaskTitle = '';
+  newTaskDescription = '';
+  newTaskDueDate = '';
+
   constructor(private authService: AuthService) {}
 
 
@@ -147,6 +153,51 @@ export class AppComponent {
         alert('Could not uncomplete task. Please try again.');
       }
     });
+  }
+
+  /**
+   * show the add task modal
+   */
+  addToDo() {
+    this.showAddModal = true;
+  }
+
+  /**
+   * submit the new task form
+   */
+  submitAddToDo() {
+    if (!this.newTaskTitle.trim()) {
+      alert('Title is required');
+      return;
+    }
+
+    const newTask = {
+      title: this.newTaskTitle.trim(),
+      description: this.newTaskDescription.trim() || undefined,
+      dueDate: this.newTaskDueDate || undefined,
+      completed: false
+    };
+
+    this.authService.createTask(newTask, this.username, this.password).subscribe({
+      next: (createdTask) => {
+        this.loadTasks(); // refresh the list
+        this.closeAddModal();
+      },
+      error: (err) => {
+        console.error('Failed to create task', err);
+        alert('Could not create task. Please try again.');
+      }
+    });
+  }
+
+  /**
+   * close the add task modal and reset fields
+   */
+  closeAddModal() {
+    this.showAddModal = false;
+    this.newTaskTitle = '';
+    this.newTaskDescription = '';
+    this.newTaskDueDate = '';
   }
 
 }

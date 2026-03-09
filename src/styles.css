@@ -47,6 +47,16 @@
   box-sizing: border-box; /* Includes padding in the width calculation */
 }
 
+.modal textarea {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical; /* allow vertical resize */
+  min-height: 80px;
+}
+
 .modal button[type="submit"] {
   padding: 12px;
   border-radius: 6px;
@@ -168,4 +178,26 @@ h1 {
 
 .checkmark.completed {
   color: #4caf50; /* green for completed tasks */
+}
+
+/* floating add button */
+.add-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000; /* ensure it's above other content */
+}
+
+.add-btn:hover {
+  background-color: #0056b3;
 }
