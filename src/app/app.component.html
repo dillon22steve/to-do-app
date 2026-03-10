@@ -18,16 +18,11 @@
   >
     <!-- checkmark for all tasks, styled based on completion -->
     <span class="checkmark" [ngClass]="{'completed': task.completed}" (click)="task.completed ? uncompleteTask(task) : completeTask(task)">✓</span>
+    <!-- delete button -->
+    <button class="delete-btn" (click)="deleteTask(task)">✕</button>
     <h3>{{ task.title }}</h3>
     <p>{{ task.description || '' }}</p>
-    <!-- show button only for unfinished tasks -->
-    <button
-      *ngIf="!task.completed"
-      class="complete-btn"
-      (click)="completeTask(task)"
-    >
-      Mark complete
-    </button>
+    <p *ngIf="task.dueDate" class="due-date">Due: {{ task.dueDate | date:'mediumDate' }}</p>
   </div>
 </div>
 
@@ -104,4 +99,4 @@
 </div>
 
 <!-- floating add button -->
-<button class="add-btn" (click)="addToDo()" *ngIf="isAuthenticated">+</button>
+<button class="add-btn" (click)="toggleAddToDo()" *ngIf="isAuthenticated">+</button>

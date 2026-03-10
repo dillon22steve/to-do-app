@@ -99,8 +99,8 @@ export class AppComponent {
     this.authService.getTasks(this.username, this.password).subscribe({
 
       next: (data) => {
-        // ensure uncompleted tasks appear first
-        this.tasks = data.sort((a, b) => Number(a.completed) - Number(b.completed));
+        this.tasks = data;
+        this.sortTasks();
         console.log("Tasks loaded", this.tasks);
       },
 
@@ -121,6 +121,24 @@ export class AppComponent {
   }
 
   /**
+   * sort tasks: earliest due date first, then incomplete before complete
+   */
+  sortTasks() {
+    this.tasks.sort((a, b) => {
+      // Parse due dates, treat missing as far future
+      const aDate = a.dueDate ? new Date(a.dueDate) : new Date('9999-12-31');
+      const bDate = b.dueDate ? new Date(b.dueDate) : new Date('9999-12-31');
+
+      // Compare dates first
+      if (aDate < bDate) return -1;
+      if (aDate > bDate) return 1;
+
+      // If dates are equal, incomplete before complete
+      return Number(a.completed) - Number(b.completed);
+    });
+  }
+
+  /**
    * mark a task complete locally and keep the list sorted
    */
   completeTask(task: ToDo) {
@@ -128,8 +146,8 @@ export class AppComponent {
     this.authService.markTaskComplete(task.id, this.username, this.password).subscribe({
       next: () => {
         task.completed = true;
-        // move the just-completed item to the end of the array
-        this.tasks.sort((a, b) => Number(a.completed) - Number(b.completed));
+        // resort the list
+        this.sortTasks();
       },
       error: (err) => {
         console.error('Failed to mark task complete', err);
@@ -145,8 +163,8 @@ export class AppComponent {
     this.authService.markTaskIncomplete(task.id, this.username, this.password).subscribe({
       next: () => {
         task.completed = false;
-        // move the just-uncompleted item to the front of the array
-        this.tasks.sort((a, b) => Number(a.completed) - Number(b.completed));
+        // resort the list
+        this.sortTasks();
       },
       error: (err) => {
         console.error('Failed to mark task incomplete', err);
@@ -158,7 +176,7 @@ export class AppComponent {
   /**
    * show the add task modal
    */
-  addToDo() {
+  toggleAddToDo() {
     this.showAddModal = true;
   }
 
@@ -198,6 +216,23 @@ export class AppComponent {
     this.newTaskTitle = '';
     this.newTaskDescription = '';
     this.newTaskDueDate = '';
+  }
+
+  /**
+   * delete a task after user confirmation
+   */
+  deleteTask(task: ToDo) {
+    if (confirm('Are you sure you want to delete this task?')) {
+      this.authService.deleteTask(task.id, this.username, this.password).subscribe({
+        next: () => {
+          this.tasks = this.tasks.filter(t => t.id !== task.id);
+        },
+        error: (err) => {
+          console.error('Failed to delete task', err);
+          alert('Could not delete task. Please try again.');
+        }
+      });
+    }
   }
 
 }

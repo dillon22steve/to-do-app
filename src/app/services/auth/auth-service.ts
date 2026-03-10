@@ -60,6 +60,11 @@ export class AuthService {
     return this.http.post<ToDo>(`${this.baseUrl}/tasks`, task, { headers });
   }
 
+  deleteTask(id: number, username: string, password: string): Observable<any> {
+    const headers = this.createAuthHeader(username, password);
+    return this.http.delete(`${this.baseUrl}/tasks/${id}`, { headers });
+  }
+
   private createAuthHeader(username: string, password: string) {
     return new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password)
