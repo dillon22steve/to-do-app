@@ -22,7 +22,7 @@ export interface ToDo {
 })
 export class AuthService {
 
-  private baseUrl = 'intelligent-inspiration-production-53d8.up.railway.app/api';
+  private baseUrl = 'https://intelligent-inspiration-production-53d8.up.railway.app/api';
 
   constructor(private http: HttpClient) {}
 
